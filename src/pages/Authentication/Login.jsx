@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { BiRegistered } from "react-icons/bi";
+import { AuthContext } from "../../Contexts/AuthContext/AuthContext";
+import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 const Login = () => {
+  const { signInUser } = useContext(AuthContext);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -10,7 +15,17 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    const { email, password } = data;
+    signInUser(email, password)
+      .then((res) => {
+        console.log(res);
+        toast.success("Logged In!");
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Failed");
+      });
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -35,8 +50,8 @@ const Login = () => {
           type="password"
           {...register("password", {
             required: true,
-            minLength: 6,
-            pattern: /^[A-Za-z]+$/i,
+            // minLength: 6,
+            // pattern: /^[A-Za-z]+$/i,
           })}
           className="input"
           placeholder="Password"
@@ -44,12 +59,12 @@ const Login = () => {
         {errors.password?.type === "required" && (
           <p role="alert">Password is required</p>
         )}
-        {errors.password?.type === "minLength" && (
+        {/* {errors.password?.type === "minLength" && (
           <p role="alert">Length has to be 6 digit</p>
         )}
         {errors.password?.type === "pattern" && (
           <p role="alert">Include a capital and a small letter</p>
-        )}
+        )} */}
         {/* Forgot pass */}
         <div>
           <a className="link link-hover">Forgot password?</a>
