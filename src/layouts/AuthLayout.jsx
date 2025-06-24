@@ -11,7 +11,7 @@ const AuthLayout = () => {
     <div>
       <div className=" ">
         <ProFastLogo></ProFastLogo>
-        <div className="p-12 hero-content flex-col lg:flex-row-reverse">
+        <div className="p-12 hero-content flex-col-reverse lg:flex-row-reverse">
           <div className="flex-1">
             <img src={loginImage} className="max-w-sm rounded-lg shadow-2xl" />
           </div>

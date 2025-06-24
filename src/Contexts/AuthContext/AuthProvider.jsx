@@ -4,8 +4,10 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { auth } from "../../assets/Firebase/firebase.init";
+import { toast } from "react-toastify";
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -17,6 +19,13 @@ const AuthProvider = ({ children }) => {
   const signInUser = (email, password) => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
+  };
+
+  const logOut = () => {
+    setLoading(true);
+    return signOut(auth).then(() => {
+      toast.success("signed out! ");
+    });
   };
 
   useEffect(() => {
@@ -33,6 +42,7 @@ const AuthProvider = ({ children }) => {
   const authInfo = {
     createUser,
     signInUser,
+    logOut,
     user,
     setUser,
     loading,
